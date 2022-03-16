@@ -1,16 +1,23 @@
-import Image from 'next/image'
+import Image from "next/image";
 import {
   MenuIcon,
   SearchIcon,
   ShoppingCartIcon,
-} from '@heroicons/react/outline'
+} from "@heroicons/react/outline";
+//@ts-ignore
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Header: React.FC = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
+
   return (
     <header>
       <div className="flex grow items-center bg-amazon_blue p-1 py-2">
         <div className="bg-yellow mt-2 flex grow items-center sm:grow-0">
           <Image
+            onClick={() => router.push("/")}
             src="https://links.papareact.com/f90"
             width={150}
             height={40}
@@ -32,15 +39,21 @@ const Header: React.FC = () => {
 
         {/* Right */}
         <div className="mx-6 flex flex-row space-x-6 text-xs text-white">
-          <div className="link">
-            <p>Hello, OOPPRO!</p>
+          <div
+            onClick={!session ? () => signIn() : () => signOut()}
+            className="link"
+          >
+            <p>{session ? `Hello, ${session.user?.name}` : "Sign In"}</p>
             <p className="linkParagraph">Account & Lists</p>
           </div>
           <div className="link">
             <p>Returns</p>
             <p className="linkParagraph">& Orders</p>
           </div>
-          <div className="link relative flex items-center">
+          <div
+            onClick={() => router.push("/checkout")}
+            className="link relative flex items-center"
+          >
             <span
               className="absolute top-0 right-0 h-4 w-4 rounded-full 
             bg-yellow-400 text-center font-bold text-black md:right-10"
@@ -71,6 +84,6 @@ const Header: React.FC = () => {
         <p className="link hidden lg:inline-flex">Health & Personal Care</p>
       </div>
     </header>
-  )
-}
-export default Header
+  );
+};
+export default Header;

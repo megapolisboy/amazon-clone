@@ -23,7 +23,7 @@ const Home: NextPage<HomeProps> = ({ products }) => {
   return (
     <div className="bg-gray-100">
       <Head>
-        <title>Amazon clone</title>
+        <title>Amazon Clone</title>
       </Head>
       <Header />
       <main className="mx-auto max-w-screen-2xl">
