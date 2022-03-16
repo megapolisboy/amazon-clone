@@ -10,6 +10,7 @@ const Home: NextPage = () => {
         <title>Amazon clone</title>
       </Head>
       <Header />
+      <main></main>
     </div>
   )
 }

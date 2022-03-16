@@ -1,5 +1,9 @@
 import Image from 'next/image'
-import { SearchIcon, ShoppingCartIcon } from '@heroicons/react/outline'
+import {
+  MenuIcon,
+  SearchIcon,
+  ShoppingCartIcon,
+} from '@heroicons/react/outline'
 
 const Header: React.FC = () => {
   return (
@@ -48,7 +52,24 @@ const Header: React.FC = () => {
           </div>
         </div>
       </div>
-      <div></div>
+      <div
+        className="flex items-center space-x-3 bg-amazon_blue-light p-2
+      pl-6 text-sm text-white"
+      >
+        <p className="link flex items-center">
+          <MenuIcon className="mr-1 h-6" />
+          All
+        </p>
+        <p className="link">Prime Video</p>
+        <p className="link">Amazon Business</p>
+        <p className="link">Today's Deals</p>
+        <p className="link hidden lg:inline-flex">Electronics</p>
+        <p className="link hidden lg:inline-flex">Food & Grocery</p>
+        <p className="link hidden lg:inline-flex">Prime</p>
+        <p className="link hidden lg:inline-flex">Buy Again</p>
+        <p className="link hidden lg:inline-flex">Shopper Toolkit</p>
+        <p className="link hidden lg:inline-flex">Health & Personal Care</p>
+      </div>
     </header>
   )
 }
