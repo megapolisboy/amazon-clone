@@ -7,10 +7,14 @@ import {
 //@ts-ignore
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { selectNumberOfItems } from "../features/basketSlice";
 
 const Header: React.FC = () => {
   const { data: session } = useSession();
   const router = useRouter();
+
+  const numberOfItems = useSelector(selectNumberOfItems);
 
   return (
     <header>
@@ -58,7 +62,7 @@ const Header: React.FC = () => {
               className="absolute top-0 right-0 h-4 w-4 rounded-full 
             bg-yellow-400 text-center font-bold text-black md:right-10"
             >
-              0
+              {numberOfItems}
             </span>
             <ShoppingCartIcon className="h-10" />
             <p className="linkParagraph mt-2 hidden md:inline">Basket</p>

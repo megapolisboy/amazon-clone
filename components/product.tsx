@@ -4,6 +4,8 @@ import { StarIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 //@ts-ignore
 import Currency from "react-currency-formatter";
+import { useAppDispatch } from "../app/hooks";
+import { addToBasket } from "../features/basketSlice";
 
 const MAX_RATING = 5;
 const MIN_RATING = 1;
@@ -12,12 +14,23 @@ interface ProductProps {
   product: ProductType;
 }
 
+export interface ProductExtendedType extends ProductType {
+  rating: number;
+  hasPrime: boolean;
+}
+
 const Product: React.FC<ProductProps> = ({ product }) => {
   const { id, title, price, description, category, image } = product;
   const [rating] = useState(
     Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
   );
   const [hasPrime] = useState(Math.random() < 0.5);
+  const dispatch = useAppDispatch();
+
+  const addItemToBasket = () => {
+    dispatch(addToBasket({ ...product, rating, hasPrime }));
+  };
+
   return (
     <div className="relative z-30 m-5 flex flex-col bg-white p-10">
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
@@ -29,8 +42,8 @@ const Product: React.FC<ProductProps> = ({ product }) => {
       <div className="flex">
         {Array(rating)
           .fill(null)
-          .map(() => (
-            <StarIcon className="h-5 text-yellow-500" />
+          .map((_, i) => (
+            <StarIcon key={i} className="h-5 text-yellow-500" />
           ))}
       </div>
 
@@ -45,7 +58,9 @@ const Product: React.FC<ProductProps> = ({ product }) => {
           <p className="text-xs text-gray-500">FREE Next-day Delivery</p>
         </div>
       )}
-      <button className="button mt-auto">Add to Basket</button>
+      <button onClick={addItemToBasket} className="button mt-auto">
+        Add to Basket
+      </button>
     </div>
   );
 };
