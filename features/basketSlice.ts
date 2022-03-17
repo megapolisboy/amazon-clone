@@ -41,4 +41,8 @@ export const selectNumberOfItems = createSelector(
   (items) => items.length
 );
 
+export const selectTotal = createSelector(selectItems, (items) =>
+  items.reduce((total, item) => total + item.price, 0)
+);
+
 export default basketSlice.reducer;
