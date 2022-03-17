@@ -8,9 +8,12 @@
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^1.8.0",
+    "@stripe/stripe-js": "^1.24.0",
     "@tailwindcss/line-clamp": "^0.3.1",
     "axios": "^0.26.1",
     "firebase": "^9.6.8",
+    "firebase-admin": "^10.0.2",
+    "firebase-tools": "^10.3.1",
     "line-clamp": "^1.0.0",
     "next": "latest",
     "next-auth": "^4.3.0",
@@ -21,7 +24,8 @@
     "react-redux": "^7.2.6",
     "react-responsive-carousel": "^3.2.23",
     "redux-toolkit": "^1.1.2",
-    "reselect": "^4.1.5"
+    "reselect": "^4.1.5",
+    "stripe": "^8.209.0"
   },
   "devDependencies": {
     "@types/node": "17.0.4",

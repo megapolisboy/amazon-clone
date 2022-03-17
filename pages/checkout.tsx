@@ -13,12 +13,27 @@ import nextId from "react-id-generator";
 //@ts-ignore
 import Currency from "react-currency-formatter";
 import { useSession } from "next-auth/react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { addOrderToFirebase } from "../firebase";
 
 const Checkout: NextPage = () => {
   const items = useAppSelector(selectItems);
   const numberOfItems = useAppSelector(selectNumberOfItems);
   const { data } = useSession();
   const total = useAppSelector(selectTotal);
+  const router = useRouter();
+
+  const checkOut = () => {
+    addOrderToFirebase(data?.user?.email || "", {
+      amount: total,
+      amountShipping: 6.99,
+      images: items.map((item) => item.image),
+      timestamp: new Date().getTime(),
+    })
+      .then(() => router.push("/success"))
+      .catch((err: Error) => console.error(err));
+  };
 
   return (
     <div className="bg-gray-100">
@@ -60,6 +75,8 @@ const Checkout: NextPage = () => {
               </h2>
 
               <button
+                role="link"
+                onClick={checkOut}
                 disabled={!data}
                 className={`button mt-2 ${
                   !data &&
