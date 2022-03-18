@@ -1,16 +1,24 @@
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { GetServerSideProps, NextPage } from "next";
+import { Session } from "next-auth";
 import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 import Header from "../components/header";
-import { Order } from "../firebase";
+import Order from "../components/order";
+import { getOrdersFromFirebase, NewOrder, OrderType } from "../firebase";
 
 interface OrdersProps {
-  orders: Order[];
+  orders: NewOrder[];
+  session: Session | null;
 }
 
-const Orders: NextPage<OrdersProps> = ({ orders }) => {
-  const { data } = useSession();
-
+const Orders: NextPage<OrdersProps> = ({ orders, session }) => {
   return (
     <div>
       <Head>
@@ -22,8 +30,17 @@ const Orders: NextPage<OrdersProps> = ({ orders }) => {
           Your Orders
         </h1>
 
-        {data ? <h2>x Orders</h2> : <h2>Please sign in to see your orders</h2>}
-        <div className="mt-5 space-y-4"></div>
+        {session ? (
+          <h2>{orders.length} Orders</h2>
+        ) : (
+          <h2>Please sign in to see your orders</h2>
+        )}
+
+        <div className="mt-5 space-y-4">
+          {orders?.map((order) => (
+            <Order key={order.id} order={order} />
+          ))}
+        </div>
       </main>
     </div>
   );
@@ -31,7 +48,7 @@ const Orders: NextPage<OrdersProps> = ({ orders }) => {
 
 export default Orders;
 
-const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
 
   if (!session) {
@@ -41,11 +58,16 @@ const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   } else {
-    const orders: any[] = [];
-    //fetch orders of    session.user?.email
+    const orders: NewOrder[] = await getOrdersFromFirebase(
+      session.user?.email || ""
+    );
+
+    console.log(orders);
+
     return {
       props: {
         orders,
+        session,
       },
     };
   }

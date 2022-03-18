@@ -50,7 +50,7 @@ const Header: React.FC = () => {
             <p>{session ? `Hello, ${session.user?.name}` : "Sign In"}</p>
             <p className="linkParagraph">Account & Lists</p>
           </div>
-          <div className="link">
+          <div className="link" onClick={() => router.push("/orders")}>
             <p>Returns</p>
             <p className="linkParagraph">& Orders</p>
           </div>
