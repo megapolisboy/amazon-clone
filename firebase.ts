@@ -45,7 +45,7 @@ export interface OrderType {
   amount: number;
   amountShipping: number;
   images: string[];
-  timestamp: string;
+  timestamp: number | string;
 }
 
 export interface NewOrder extends OrderType {

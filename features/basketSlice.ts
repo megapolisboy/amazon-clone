@@ -28,10 +28,15 @@ export const basketSlice = createSlice({
       );
       state.items.splice(index, 1);
     },
+
+    clearBasket: (state) => {
+      state.items = [];
+    },
   },
 });
 
-export const { addToBasket, removeFromBasket } = basketSlice.actions;
+export const { addToBasket, removeFromBasket, clearBasket } =
+  basketSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectItems = (state: RootState) => state.basket.items;

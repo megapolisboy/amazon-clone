@@ -2,8 +2,9 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Header from "../components/header";
 import Image from "next/image";
-import { useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
+  clearBasket,
   selectItems,
   selectNumberOfItems,
   selectTotal,
@@ -23,6 +24,7 @@ const Checkout: NextPage = () => {
   const { data } = useSession();
   const total = useAppSelector(selectTotal);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const checkOut = () => {
     addOrderToFirebase(data?.user?.email || "", {
@@ -31,7 +33,10 @@ const Checkout: NextPage = () => {
       images: items.map((item) => item.image),
       timestamp: new Date().getTime(),
     })
-      .then(() => router.push("/success"))
+      .then(() => {
+        router.push("/success");
+        dispatch(clearBasket());
+      })
       .catch((err: Error) => console.error(err));
   };
 
