@@ -44,7 +44,7 @@ const Header: React.FC = () => {
         {/* Right */}
         <div className="mx-6 flex flex-row space-x-6 text-xs text-white">
           <div
-            onClick={!session ? () => signIn("google") : () => signOut()}
+            onClick={!session ? () => signIn() : () => signOut()}
             className="link"
           >
             <p>{session ? `Hello, ${session.user?.name}` : "Sign In"}</p>
